@@ -1,0 +1,52 @@
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f4f4;
+}
+
+header{
+    background:black;
+    color:white;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+nav a{
+    color:white;
+    margin:10px;
+    text-decoration:none;
+}
+
+.hero{
+    text-align:center;
+    padding:50px;
+    background:white;
+}
+
+.products{
+    display:flex;
+    gap:20px;
+    padding:20px;
+}
+
+.product-card{
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    width:200px;
+    text-align:center;
+}
+
+.product-card img{
+    width:100%;
+}
+
+button{
+    background:black;
+    color:white;
+    border:none;
+    padding:10px;
+    cursor:pointer;
+}

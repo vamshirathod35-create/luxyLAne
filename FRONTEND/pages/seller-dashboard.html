@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Seller Dashboard</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            margin:0;
+            padding:0;
+        }
+
+        header{
+            background:black;
+            color:white;
+            padding:20px;
+            text-align:center;
+        }
+
+        .form-container{
+            background:white;
+            width:350px;
+            margin:40px auto;
+            padding:30px;
+            border-radius:10px;
+        }
+
+        input, textarea{
+            width:100%;
+            padding:10px;
+            margin-top:10px;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            margin-top:15px;
+            background:black;
+            color:white;
+            border:none;
+            cursor:pointer;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>Seller Dashboard</h1>
+
+</header>
+
+<div class="form-container">
+
+    <input
+    type="text"
+    id="product-name"
+    placeholder="Product Name">
+
+    <input
+    type="text"
+    id="product-price"
+    placeholder="Product Price">
+
+    <textarea
+    id="product-description"
+    placeholder="Product Description">
+    </textarea>
+
+    <input
+    type="text"
+    id="product-image"
+    placeholder="Image URL">
+
+    <button onclick="addProduct()">
+        Add Product
+    </button>
+
+</div>
+
+<script>
+
+let token =
+localStorage.getItem("token");
+
+if(!token){
+
+    alert("Please Login First");
+
+    window.location.href =
+    "login.html";
+}
+
+async function addProduct(){
+
+    let productName =
+    document.getElementById("product-name").value;
+
+    let productPrice =
+    document.getElementById("product-price").value;
+
+    let productDescription =
+    document.getElementById("product-description").value;
+
+    let productImage =
+    document.getElementById("product-image").value;
+
+    let product = {
+
+        name: productName,
+
+        price: productPrice,
+
+        description: productDescription,
+
+        image: productImage
+    };
+
+    let response = await fetch(
+
+        "http://localhost:5000/add-product",
+
+        {
+
+            method:"POST",
+
+            headers:{
+
+                "Content-Type":"application/json",
+
+                "Authorization": token
+            },
+
+            body: JSON.stringify(product)
+
+        }
+
+    );
+
+    let data = await response.text();
+
+    alert(data);
+}
+
+</script>
+
+</body>
+
+</html>

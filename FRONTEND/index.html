@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>LuxyLane</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            margin:0;
+            background:#f4f4f4;
+        }
+
+        header{
+            background:black;
+            color:white;
+            padding:20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        nav a{
+            color:white;
+            margin-left:20px;
+            text-decoration:none;
+        }
+
+        .products{
+            display:flex;
+            flex-wrap:wrap;
+            gap:20px;
+            padding:20px;
+        }
+
+        .product-card{
+            background:white;
+            padding:20px;
+            width:250px;
+            border-radius:10px;
+        }
+
+        img{
+            width:100%;
+            height:200px;
+            object-fit:cover;
+        }
+
+        button{
+            width:100%;
+            padding:10px;
+            background:black;
+            color:white;
+            border:none;
+            margin-top:10px;
+            cursor:pointer;
+        }
+
+        #username{
+            margin-left:20px;
+            color:yellow;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>LuxyLane</h1>
+
+    <nav>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="pages/cart.html">
+            Cart
+        </a>
+
+        <a href="pages/orders.html">
+            Orders
+        </a>
+
+        <a href="pages/seller-dashboard.html">
+            Seller
+        </a>
+
+        <a href="pages/login.html"
+        id="login-link">
+
+            Login
+
+        </a>
+
+        <a href="#"
+        onclick="logout()"
+        id="logout-link"
+        style="display:none;">
+
+            Logout
+
+        </a>
+
+        <span id="username">
+
+        </span>
+
+    </nav>
+
+</header>
+
+<section
+class="products"
+id="products-container">
+
+</section>
+
+<script>
+
+let username =
+localStorage.getItem("username");
+
+if(username){
+
+    document.getElementById(
+        "username"
+    ).innerText =
+
+    "Hi, " + username;
+
+    document.getElementById(
+        "login-link"
+    ).style.display = "none";
+
+    document.getElementById(
+        "logout-link"
+    ).style.display = "inline";
+}
+
+function logout(){
+
+    localStorage.clear();
+
+    alert("Logged Out");
+
+    window.location.reload();
+}
+
+async function fetchProducts(){
+
+    let response = await fetch(
+        "http://localhost:5000/products"
+    );
+
+    let products = await response.json();
+
+    let container =
+    document.getElementById(
+        "products-container"
+    );
+
+    container.innerHTML = "";
+
+    products.forEach((product) => {
+
+        container.innerHTML += `
+
+        <div class="product-card">
+
+            <img src="${product.image}">
+
+            <h2>${product.name}</h2>
+
+            <h3>₹${product.price}</h3>
+
+            <p>${product.description}</p>
+
+            <button onclick='addToCart(${JSON.stringify(product)})'>
+                Add To Cart
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+function addToCart(product){
+
+    let cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.push(product);
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    alert("Added To Cart");
+}
+
+fetchProducts();
+
+</script>
+
+</body>
+
+</html>

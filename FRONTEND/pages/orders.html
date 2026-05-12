@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>My Orders</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f4f4f4;
+            margin:0;
+        }
+
+        header{
+            background:black;
+            color:white;
+            padding:20px;
+            text-align:center;
+        }
+
+        .orders-container{
+            padding:20px;
+        }
+
+        .order-card{
+            background:white;
+            padding:20px;
+            margin-bottom:20px;
+            border-radius:10px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>My Orders</h1>
+
+</header>
+
+<div
+class="orders-container"
+id="orders-container">
+
+</div>
+
+<script>
+
+let token =
+localStorage.getItem("token");
+
+if(!token){
+
+    alert("Please Login First");
+
+    window.location.href =
+    "login.html";
+}
+
+async function fetchOrders(){
+
+    let response = await fetch(
+
+        "http://localhost:5000/my-orders",
+
+        {
+
+            headers:{
+
+                "Authorization": token
+            }
+
+        }
+
+    );
+
+    let orders =
+    await response.json();
+
+    let container =
+    document.getElementById(
+        "orders-container"
+    );
+
+    container.innerHTML = "";
+
+    orders.forEach((order) => {
+
+        container.innerHTML += `
+
+        <div class="order-card">
+
+            <h2>
+                Order Total:
+                ₹${order.totalPrice}
+            </h2>
+
+            <h3>
+                Products:
+            </h3>
+
+            ${order.products.map(product => `
+
+                <p>
+
+                    ${product.name}
+                    -
+                    ₹${product.price}
+
+                </p>
+
+            `).join("")}
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+fetchOrders();
+
+</script>
+
+</body>
+
+</html>
