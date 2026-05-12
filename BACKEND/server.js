@@ -2,42 +2,29 @@ const express = require("express");
 
 const cors = require("cors");
 
-const mongoose = require("mongoose");
-
 const jwt = require("jsonwebtoken");
 
 const bcrypt = require("bcryptjs");
 
 const Product = require("./models/Product");
 
-const User = require("./models/User");
+const User = require("./models/user");
 
-const Order = require("./models/Order");
+const Order = require("./models/order");
+
+const connectDB = require("./config/db");
 
 const app = express();
+
+connectDB();
 
 app.use(cors());
 
 app.use(express.json());
 
-mongoose.connect(
-    "mongodb://127.0.0.1:27017/luxylane"
-)
-.then(() => {
-
-    console.log("MongoDB Connected");
-
-})
-.catch((error) => {
-
-    console.log(error);
-
-});
-
 function verifyToken(req, res, next){
 
-    const token =
-    req.headers.authorization;
+    const token = req.headers.authorization;
 
     if(!token){
 
@@ -49,9 +36,7 @@ function verifyToken(req, res, next){
     try{
 
         const verified = jwt.verify(
-
             token,
-
             "luxylane_secret_key"
         );
 
@@ -313,8 +298,10 @@ app.get(
 
 });
 
-app.listen(5000, () => {
+const PORT = process.env.PORT || 5000;
 
-    console.log("Server Started On Port 5000");
+app.listen(PORT, () => {
+
+    console.log(`Server Started On Port ${PORT}`);
 
 });
