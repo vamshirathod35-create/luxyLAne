@@ -74,9 +74,7 @@ async function loginUser(){
     let password =
     document.getElementById("password").value;
 
-    let response = await fetch(
-        "https://luxylane-backend.onrender.com/products",
-        {
+    let response = await fetch("https://luxylane-backend.onrender.com/login", {
             method:"POST",
 
             headers:{
