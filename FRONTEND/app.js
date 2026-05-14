@@ -24,7 +24,7 @@ async function addProduct() {
     };
 
     let response = await fetch(
-        "http://localhost:5000/add-product",
+        "https://luxylane-backend.onrender.com/products",
         {
             method: "POST",
 
