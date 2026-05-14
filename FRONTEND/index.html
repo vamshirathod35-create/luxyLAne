@@ -155,7 +155,7 @@ function logout(){
 async function fetchProducts(){
 
     let response = await fetch(
-        "https://luxylane-backend.onrender.com"
+        "https://luxylane-backend.onrender.com/products"
     );
 
     let products = await response.json();
